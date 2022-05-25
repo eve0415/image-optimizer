@@ -115,7 +115,9 @@ server.get(
             optimizer.resize(width, height, { fit: 'outside' });
         }
 
-        reply.header('Cache-Control', 'public, max-age=31536000');
+        reply.header('Cache-Control', 'public, max-age=14400, s-maxage=84000');
+        reply.header('Cloudflare-CDN-Cache-Control', 'max-age=24400');
+        reply.header('CDN-Cache-Control', 'max-age=18000');
         reply.header('Content-Type', `image/${format}`);
 
         return optimizer
