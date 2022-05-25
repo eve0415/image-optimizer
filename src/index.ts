@@ -128,6 +128,10 @@ server.get(
     }
 );
 
+['SIGTERM', 'SIGINT', 'SIGUSR2'].forEach(signal =>
+    process.once(signal, () => prove.close().then(() => server.close()))
+);
+
 (async () => {
     await server.register(import('@fastify/cors'));
     await server.register(import('@fastify/accepts'));
