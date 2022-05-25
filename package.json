@@ -27,7 +27,8 @@
         "esbuild": "^0.14.39",
         "esbuild-node-externals": "^1.4.1",
         "nodemon": "^2.0.16",
+        "prettier": "^2.6.2",
         "rimraf": "^3.0.2",
-        "typescript": "^4.6.4"
+        "typescript": "^4.7.2"
     }
 }

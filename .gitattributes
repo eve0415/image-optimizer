@@ -1,2 +1,7 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Mark generated files as binary to prevent git from trying to merge them
+/.pnp.*             binary linguist-generated
+/.yarn/releases/**  binary
+/.yarn/plugins/**   binary
