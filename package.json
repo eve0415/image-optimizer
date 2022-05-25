@@ -4,7 +4,7 @@
     "scripts": {
         "build": "./build.js",
         "dev": "nodemon --watch src --ignore study.ts --ignore register.ts -e ts --exec \"yarn build && yarn node -r dotenv/config --enable-source-maps ./out/index.js\"",
-        "lint": "prettier --write --ignore-path .gitignore \"./**/*.{json,js,ts,tsx}\"",
+        "lint": "prettier --write --ignore-path .gitignore \"./**/*.{json,js,ts}\"",
         "clean": "rimraf out",
         "sdk": "yarn dlx @yarnpkg/sdks"
     },
