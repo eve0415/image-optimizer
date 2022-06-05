@@ -41,6 +41,7 @@ server.get(
                 width: Type.Optional(Type.Number()),
                 height: Type.Optional(Type.Number()),
                 quality: Type.Number({ minimum: 1, maximum: 100, default: 80 }),
+                blur: Type.Boolean({ default: false }),
                 format: Type.Optional(
                     Type.String({
                         enum: [
@@ -114,6 +115,8 @@ server.get(
 
             optimizer.resize(width, height, { fit: 'outside' });
         }
+
+        if (request.query.blur) optimizer.blur(5);
 
         reply.header('Cache-Control', 'public, max-age=14400, s-maxage=84000');
         reply.header('Cloudflare-CDN-Cache-Control', 'max-age=24400');
