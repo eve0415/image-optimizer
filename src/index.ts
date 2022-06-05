@@ -79,21 +79,24 @@ server.get(
         )
             ? baseImage.headers['content-type']?.replace('image/', '')
             : request.query.url.split('.').pop();
-        const format =
-            request.query.format ??
-            (
-                request
-                    .accepts()
-                    .type([
-                        'image/avif',
-                        'image/webp',
-                        'image/tiff',
-                        'image/gif',
-                        'image/png',
-                        'image/jpeg',
-                    ]) as string
-            ).replace('image/', '') ??
-            baseFormat;
+        const format = request.raw.headers['user-agent']?.includes(
+            '+https://discordapp.com'
+        )
+            ? 'webp'
+            : request.query.format ??
+              (
+                  request
+                      .accepts()
+                      .type([
+                          'image/avif',
+                          'image/webp',
+                          'image/tiff',
+                          'image/gif',
+                          'image/png',
+                          'image/jpeg',
+                      ]) as string
+              ).replace('image/', '') ??
+              baseFormat;
         const optimizer = sharp(Buffer.from(baseImage.data), {
             sequentialRead: true,
         });
