@@ -40,7 +40,7 @@ jobs:
         run: yarn build
 
   pretty:
-    name: Build
+    name: Lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
