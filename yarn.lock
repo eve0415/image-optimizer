@@ -43,6 +43,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fastify/etag@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "@fastify/etag@npm:4.0.0"
+  dependencies:
+    fastify-plugin: ^3.0.0
+  checksum: 3403e86514e65e3f2a9075899b882727552752a0bf1b3cb861b4ca7a89a56d182f62da64730faf775fd7147084415b26f02f7ebf2439c3db75f45d20286b20bb
+  languageName: node
+  linkType: hard
+
 "@fastify/fast-json-stringify-compiler@npm:^3.0.0":
   version: 3.0.0
   resolution: "@fastify/fast-json-stringify-compiler@npm:3.0.0"
@@ -52,13 +61,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fastify/type-provider-typebox@npm:^0.1.0-beta.1":
-  version: 0.1.0-beta.1
-  resolution: "@fastify/type-provider-typebox@npm:0.1.0-beta.1"
+"@fastify/type-provider-typebox@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@fastify/type-provider-typebox@npm:1.0.0"
   peerDependencies:
     "@sinclair/typebox": ^0.23.0
-    fastify: "*"
-  checksum: dbea28530799767d672cba117e4a73a66c6d38723cc876c40b4473144b9bb165c4f634493723c01ae67d0369a71435f187a09be1d68a345ee4e7208186370777
+    fastify: ^4.0.0
+  checksum: 2dc1ea21cf16d3d595ecb0b289fffeed64875db7954f0ec1947742ff073e4d93a5a989549b41c6269b5beacb1bb06725a836b256be8b8c98f7af0ee6ec3b9636
   languageName: node
   linkType: hard
 
@@ -1463,7 +1472,8 @@ __metadata:
   dependencies:
     "@fastify/accepts": ^4.0.0
     "@fastify/cors": ^8.0.0
-    "@fastify/type-provider-typebox": ^0.1.0-beta.1
+    "@fastify/etag": ^4.0.0
+    "@fastify/type-provider-typebox": ^1.0.0
     "@sinclair/typebox": ^0.23.5
     "@types/node": ^17.0.41
     "@types/rimraf": ^3.0.2
