@@ -56,4 +56,4 @@ jobs:
         run: yarn install --immutable --immutable-cache
 
       - name: Lint
-        run: yarn prettier --ignore-path .gitignore "./**/*.{json,js,ts}"
+        run: yarn prettier "./**/*.{json,js,ts}"
