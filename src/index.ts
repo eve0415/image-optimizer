@@ -150,6 +150,17 @@ server.get(
     process.once(signal, () => prove.close().then(() => server.close()))
 );
 
+['uncaughtException', 'unhandledRejection'].forEach(signal =>
+    process.on(signal, e =>
+        console.error(`Signal: ${signal}\n`, handleAxiosError(e))
+    )
+);
+
+function handleAxiosError(e: unknown) {
+    if (!axios.isAxiosError(e)) return e;
+    return e.toJSON();
+}
+
 (async () => {
     await server.register(import('@fastify/cors'));
     await server.register(import('@fastify/accepts'));
