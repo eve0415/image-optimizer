@@ -53,7 +53,7 @@ jobs:
           cache: yarn
 
       - name: Install dependencies
-        run: yarn install --immutable --immutable-cache
+        run: yarn install --frozen-lockfile
 
       - name: Lint
         run: yarn prettier "./**/*.{json,js,ts}"
