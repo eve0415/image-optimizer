@@ -1,18 +1,19 @@
 import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 import { Type } from '@sinclair/typebox';
-import axios, { AxiosAdapter } from 'axios';
+import axios from 'axios';
 import {
-    cacheAdapterEnhancer,
-    throttleAdapterEnhancer,
-} from 'axios-extensions';
+    buildMemoryStorage,
+    defaultHeaderInterpreter,
+    defaultKeyGenerator,
+    setupCache,
+} from 'axios-cache-interceptor';
 import Fastify, { fastify } from 'fastify';
 import sharp, { FormatEnum } from 'sharp';
 
-const imageRequest = axios.create({
-    adapter: throttleAdapterEnhancer(
-        cacheAdapterEnhancer(axios.defaults.adapter as AxiosAdapter),
-        { threshold: 1000 * 5 }
-    ),
+const imageRequest = setupCache(axios.create(), {
+    storage: buildMemoryStorage(),
+    generateKey: defaultKeyGenerator,
+    headerInterpreter: defaultHeaderInterpreter,
 });
 
 const allowedHost = [...JSON.parse(process.env['ALLOWED_HOST'] || '[]')].map(
@@ -75,6 +76,7 @@ server.get(
                 request.query.url,
                 {
                     responseType: 'arraybuffer',
+                    cache: { etag: true },
                 }
             );
             const baseFormat = baseImage.headers['content-type']?.startsWith(

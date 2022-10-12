@@ -16,7 +16,7 @@
         "@fastify/type-provider-typebox": "^2.3.0",
         "@sinclair/typebox": "^0.24.44",
         "axios": "^1.1.2",
-        "axios-extensions": "^3.1.6",
+        "axios-cache-interceptor": "^0.10.7",
         "fastify": "^4.8.1",
         "sharp": "^0.31.1"
     },
