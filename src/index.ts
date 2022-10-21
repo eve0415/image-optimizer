@@ -126,13 +126,22 @@ server.get(
 
             if (request.query.blur) optimizer.blur(5);
 
-            reply.header(
-                'Cache-Control',
-                'public, max-age=14400, s-maxage=84000'
-            );
-            reply.header('Cloudflare-CDN-Cache-Control', 'max-age=24400');
-            reply.header('CDN-Cache-Control', 'max-age=18000');
-            reply.header('Content-Type', `image/${format}`);
+            /**
+             * Cache control
+             * Browser: 1 day
+             * Network Shared Cache: 3 days
+             * Revalidate: 12 hours
+             * Cloudflare Edge: 1 day 12 hours
+             * Other CDNs: 1 day 6 hours
+             */
+            reply
+                .header(
+                    'Cache-Control',
+                    'public, max-age=86400, s-maxage=259200 604800, stale-while-revalidate=43200'
+                )
+                .header('Cloudflare-CDN-Cache-Control', 'max-age=129600')
+                .header('CDN-Cache-Control', 'max-age=108000')
+                .header('Content-Type', `image/${format}`);
 
             return optimizer
                 .toFormat(format as keyof FormatEnum, {
