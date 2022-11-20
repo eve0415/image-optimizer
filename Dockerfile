@@ -1,4 +1,4 @@
-FROM node:16-alpine3.14 AS builder-base
+FROM node:lts-alpine AS builder-base
 RUN apk add python3 make g++
 WORKDIR /app
 COPY .yarn/ ./.yarn
@@ -18,7 +18,7 @@ RUN yarn workspaces focus --production
 COPY --from=builder /app/out ./
 
 
-FROM node:16-alpine3.14 AS runner
+FROM node:lts-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV production
 EXPOSE 8080
