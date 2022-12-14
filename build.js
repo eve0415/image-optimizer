@@ -3,7 +3,6 @@
 // @ts-check
 
 import { build } from 'esbuild';
-import { nodeExternalsPlugin } from 'esbuild-node-externals';
 import { join } from 'path';
 import { cwd } from 'process';
 
@@ -18,5 +17,5 @@ build({
     platform: 'node',
     sourcemap: 'inline',
     tsconfig: join(cwd(), 'tsconfig.json'),
-    plugins: [nodeExternalsPlugin()],
+    packages: 'external',
 });
