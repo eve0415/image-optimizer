@@ -7,7 +7,7 @@ import {
     defaultKeyGenerator,
     setupCache,
 } from 'axios-cache-interceptor';
-import Fastify, { fastify, FastifyRequest } from 'fastify';
+import Fastify, { fastify } from 'fastify';
 import sharp, { FormatEnum } from 'sharp';
 
 const imageRequest = setupCache(axios.create(), {
@@ -93,7 +93,43 @@ server.get(
                 ? baseImage.headers['content-type']?.replace('image/', '')
                 : request.query.url.split('.').pop();
 
-            const format = calculateFormat(request, baseFormat);
+            const format = (() => {
+                // Discord cannot show avif image in the message
+                if (
+                    request.raw.headers['user-agent']?.includes(
+                        '+https://discordapp.com'
+                    )
+                )
+                    return 'webp';
+
+                if (request.query.format) return request.query.format;
+
+                // iOS 16+ support avif
+                if (
+                    /iPad|iPhone|iPod/.test(`${request.headers['user-agent']}`)
+                ) {
+                    const stripped = `${request.headers['user-agent']}`.match(
+                        /OS (?<version>\d+)_(\d+)/
+                    );
+                    if (parseInt(stripped?.groups?.['version'] ?? '0') < 16)
+                        return 'webp';
+                }
+
+                // From browser supported image format
+                const browserSupport = request
+                    .accepts()
+                    .type([
+                        'image/avif',
+                        'image/webp',
+                        'image/tiff',
+                        'image/gif',
+                        'image/png',
+                        'image/jpeg',
+                    ]) as string | undefined;
+                if (browserSupport) return browserSupport.replace('image/', '');
+
+                return baseFormat ?? 'webp';
+            })();
 
             if (process.env['NODE_ENV'] === 'debug') {
                 console.debug(request.accepts());
@@ -177,40 +213,6 @@ server.get(
         console.error(`Signal: ${signal}\n`, handleAxiosError(e))
     )
 );
-
-function calculateFormat(
-    request: FastifyRequest<{ Querystring: { format: String } }>,
-    fallback?: String
-): String {
-    // Discord cannot show avif image in the message
-    if (request.raw.headers['user-agent']?.includes('+https://discordapp.com'))
-        return 'webp';
-
-    if (request.query.format) return request.query.format;
-
-    // iOS 16+ support avif
-    if (/iPad|iPhone|iPod/.test(`${request.headers['user-agent']}`)) {
-        const stripped = `${request.headers['user-agent']}`.match(
-            /OS (?<version>\d+)_(\d+)/
-        );
-        if (parseInt(stripped?.groups?.['version'] ?? '0') < 16) return 'webp';
-    }
-
-    // From browser supported image format
-    const browserSupport = request
-        .accepts()
-        .type([
-            'image/avif',
-            'image/webp',
-            'image/tiff',
-            'image/gif',
-            'image/png',
-            'image/jpeg',
-        ]) as string | undefined;
-    if (browserSupport) return browserSupport.replace('image/', '');
-
-    return fallback ?? 'webp';
-}
 
 function handleAxiosError(e: unknown) {
     if (!axios.isAxiosError(e)) return e;
