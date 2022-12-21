@@ -33,6 +33,14 @@ const server = Fastify({
         },
     },
 }).withTypeProvider<TypeBoxTypeProvider>();
+
+if (process.env['NODE_ENV'] === 'debug') {
+    server.addHook('onRequest', async req => {
+        console.debug(req.url);
+        console.debug(req.headers);
+    });
+}
+
 server.get(
     '/',
     {
@@ -102,6 +110,25 @@ server.get(
                           ]) as string
                   ).replace('image/', '') ??
                   baseFormat;
+
+            if (process.env['NODE_ENV'] === 'debug') {
+                console.debug(request.accepts());
+                console.debug(
+                    request
+                        .accepts()
+                        .type([
+                            'image/avif',
+                            'image/webp',
+                            'image/tiff',
+                            'image/gif',
+                            'image/png',
+                            'image/jpeg',
+                        ])
+                );
+                console.debug('base format: ', baseFormat);
+                console.debug('selected format: ', format);
+            }
+
             const optimizer = sharp(Buffer.from(baseImage.data), {
                 sequentialRead: true,
             });
