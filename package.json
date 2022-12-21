@@ -8,24 +8,24 @@
         "clean": "rimraf out",
         "sdk": "yarn dlx @yarnpkg/sdks"
     },
-    "packageManager": "yarn@3.3.0",
+    "packageManager": "yarn@3.3.1",
     "dependencies": {
         "@fastify/accepts": "^4.1.0",
         "@fastify/cors": "^8.2.0",
         "@fastify/etag": "^4.2.0",
         "@fastify/type-provider-typebox": "^2.4.0",
-        "@sinclair/typebox": "^0.25.13",
+        "@sinclair/typebox": "^0.25.15",
         "axios": "^1.2.1",
         "axios-cache-interceptor": "^0.10.7",
         "fastify": "^4.10.2",
         "sharp": "^0.31.2"
     },
     "devDependencies": {
-        "@types/node": "^18.11.15",
+        "@types/node": "^18.11.17",
         "@types/rimraf": "^3.0.2",
         "@types/sharp": "^0.31.0",
         "dotenv": "^16.0.3",
-        "esbuild": "^0.16.5",
+        "esbuild": "^0.16.10",
         "nodemon": "^2.0.20",
         "prettier": "^2.8.1",
         "rimraf": "^3.0.2",
