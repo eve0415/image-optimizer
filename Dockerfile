@@ -19,11 +19,11 @@ RUN yarn build
 FROM builder-base AS production
 RUN --mount=type=cache,target=/root/.yarn/berry/cache \
     --mount=type=cache,target=/root/.cache \
-    yarn workspaces focus --production
+    yarn workspaces focus --production -A
 COPY --from=builder /app/out ./
 
 
-FROM gcr.io/distroless/nodejs18-debian11:nonroot AS runner
+FROM node:lts-slim AS runner
 WORKDIR /app
 ENV NODE_ENV production
 EXPOSE 8080
