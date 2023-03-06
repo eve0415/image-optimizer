@@ -24,7 +24,7 @@ RUN --mount=type=cache,target=/root/.yarn/berry/cache \
 COPY --from=builder /app/out ./
 
 
-FROM node:lts-slim AS runner
+FROM node:lts-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV production
 EXPOSE 8080
