@@ -1,5 +1,6 @@
 FROM node:lts-alpine AS builder-base
-RUN apk add python3 make g++
+RUN --mount=type=cache,target=/var/cache/apt \
+    apk add python3 make g++
 WORKDIR /app
 COPY --link .yarn/ ./.yarn
 COPY --link .yarnrc.yml package.json yarn.lock ./
@@ -7,14 +8,18 @@ COPY --link .yarnrc.yml package.json yarn.lock ./
 
 FROM builder-base AS builder
 WORKDIR /app
-RUN yarn install --immutable --network-timeout 100000
+RUN --mount=type=cache,target=/root/.yarn/berry/cache \
+    --mount=type=cache,target=/root/.cache \
+    yarn install --immutable --network-timeout 100000
 COPY --link . .
 RUN chmod +x build.js
 RUN yarn build
 
 
 FROM builder-base AS production
-RUN yarn workspaces focus --production
+RUN --mount=type=cache,target=/root/.yarn/berry/cache \
+    --mount=type=cache,target=/root/.cache \
+    yarn workspaces focus --production
 COPY --from=builder /app/out ./
 
 
