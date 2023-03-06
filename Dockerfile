@@ -18,7 +18,7 @@ RUN yarn workspaces focus --production
 COPY --from=builder /app/out ./
 
 
-FROM node:lts-alpine AS runner
+FROM gcr.io/distroless/nodejs18-debian11:nonroot AS runner
 WORKDIR /app
 ENV NODE_ENV production
 EXPOSE 8080
