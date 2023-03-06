@@ -19,7 +19,8 @@ RUN yarn build
 FROM builder-base AS production
 RUN --mount=type=cache,target=/root/.yarn/berry/cache \
     --mount=type=cache,target=/root/.cache \
-    yarn workspaces focus --production -A
+    yarn workspaces focus --production -A && \
+    yarn rebuild
 COPY --from=builder /app/out ./
 
 
