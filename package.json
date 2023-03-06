@@ -18,7 +18,7 @@
         "axios": "^1.3.4",
         "axios-cache-interceptor": "^1.0.1",
         "fastify": "^4.14.0",
-        "sharp": "0.31.2"
+        "sharp": "0.31.1"
     },
     "devDependencies": {
         "@types/node": "^18.14.6",
