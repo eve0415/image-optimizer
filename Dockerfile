@@ -10,7 +10,7 @@ FROM builder-base AS builder
 WORKDIR /app
 RUN --mount=type=cache,target=/root/.yarn/berry/cache \
     --mount=type=cache,target=/root/.cache \
-    yarn install --immutable --network-timeout 100000
+    yarn install --immutable --inline-builds --network-timeout 100000
 COPY --link . .
 RUN chmod +x build.js
 RUN yarn build
